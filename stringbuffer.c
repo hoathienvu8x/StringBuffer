@@ -32,8 +32,11 @@ string_buffer_t * string_buffer_new_with_string_length(const char *str, size_t l
   if (len == 0) return self;
   self = string_buffer_new_with_size(len);
   if (!self) return NULL;
-  memcpy(self->alloc, str, len);
-  return self;
+  if (memcpy(self->alloc, str, len)) {
+    return self;
+  }
+  string_buffer_free(self);
+  return NULL;
 }
 string_buffer_t * string_buffer_new_with_copy(const char *str) {
   string_buffer_t *self = NULL;
@@ -41,8 +44,11 @@ string_buffer_t * string_buffer_new_with_copy(const char *str) {
   if (!str || (len = strlen(str)) == 0) return NULL;
   self = string_buffer_new_with_size(len);
   if (!self) return NULL;
-  memcpy(self->alloc, str, len);
-  return self;
+  if (memcpy(self->alloc, str, len)) {
+    return self;
+  }
+  string_buffer_free(self);
+  return NULL;
 }
 size_t string_buffer_size(const string_buffer_t *self) {
   if (!self) return 0;
