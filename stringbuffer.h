@@ -27,9 +27,9 @@ string_buffer_t * string_buffer_slice(const string_buffer_t *self, size_t from, 
 ssize_t string_buffer_compact(string_buffer_t *self);
 void string_buffer_fill(string_buffer_t *self, int c);
 void string_buffer_clear(string_buffer_t *self);
-void string_buffer_ltrim(string_buffer_t *self);
-void string_buffer_rtrim(string_buffer_t *self);
-void string_buffer_trim(string_buffer_t *self);
+void string_buffer_ltrim(string_buffer_t *self, const char * chars);
+void string_buffer_rtrim(string_buffer_t *self, const char * chars);
+void string_buffer_trim(string_buffer_t *self, const char * chars);
 #define string_buffer_final(self) (self->data)
 
 #endif

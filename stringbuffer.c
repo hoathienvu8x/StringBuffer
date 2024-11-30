@@ -166,23 +166,27 @@ void string_buffer_clear(string_buffer_t *self) {
   if (!self) return;
   string_buffer_fill(self, 0);
 }
-void string_buffer_ltrim(string_buffer_t *self) {
+static int is_delim(int ch, const char * chars) {
+  if (!chars || strlen(chars) == 0) return isspace(ch);
+  return strchr(chars, ch) != NULL;
+}
+void string_buffer_ltrim(string_buffer_t *self, const char * chars) {
   int c;
   if (!self) return;
-  while ((c = *self->data) && isspace(c)) {
+  while ((c = *self->data) && is_delim(c, chars)) {
     ++self->data;
   }
 }
-void string_buffer_rtrim(string_buffer_t *self) {
+void string_buffer_rtrim(string_buffer_t *self, const char * chars) {
   int c;
   size_t i;
   if (!self) return;
   i = string_buffer_length(self) - 1;
-  while ((c = self->data[i]) && isspace(c)) {
+  while ((c = self->data[i]) && is_delim(c, chars)) {
     self->data[i--] = '\0';
   }
 }
-void string_buffer_trim(string_buffer_t *self) {
-  string_buffer_ltrim(self);
-  string_buffer_rtrim(self);
+void string_buffer_trim(string_buffer_t *self, const char * chars) {
+  string_buffer_ltrim(self, chars);
+  string_buffer_rtrim(self, chars);
 }

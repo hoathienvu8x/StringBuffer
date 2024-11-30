@@ -226,23 +226,23 @@ void
 test_string_buffer_trim() {
   printf("test_string_buffer_trim()\n");
   string_buffer_t *buf = string_buffer_new_with_copy("  Hello\n\n ");
-  string_buffer_trim(buf);
+  string_buffer_trim(buf, NULL);
   printf("1. string_buffer_trim() -> ");
   equal("Hello", string_buffer_final(buf));
   string_buffer_free(buf);
   printf("OK\n");
 
   buf = string_buffer_new_with_copy("  Hello\n\n ");
-  string_buffer_ltrim(buf);
+  string_buffer_ltrim(buf, "");
   printf("2. string_buffer_ltrim() -> ");
   equal("Hello\n\n ", string_buffer_final(buf));
   string_buffer_free(buf);
   printf("OK\n");
 
   buf = string_buffer_new_with_copy("  Hello\n\n ");
-  string_buffer_rtrim(buf);
+  string_buffer_rtrim(buf, "\r\n\t\v\f 0o");
   printf("3. string_buffer_rtrim() -> ");
-  equal("  Hello", string_buffer_final(buf));
+  equal("  Hell", string_buffer_final(buf));
   string_buffer_free(buf);
   printf("OK\n");
 }
@@ -251,7 +251,7 @@ void
 test_string_buffer_compact() {
   printf("test_string_buffer_compact() -> ");
   string_buffer_t *buf = string_buffer_new_with_copy("  Hello\n\n ");
-  string_buffer_trim(buf);
+  string_buffer_trim(buf, NULL);
   assert(5 == string_buffer_length(buf));
   assert(10 == string_buffer_size(buf));
 
